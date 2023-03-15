@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using tranhuuhuy_2011061565.Models;
 using tranhuuhuy_2011061565.ViewModels;
 
@@ -17,6 +18,8 @@ namespace tranhuuhuy_2011061565.Controllers
             _dbContext= new ApplicationDbContext();
         }
         // GET: Courses
+        [Authorize]
+
         public ActionResult Create()
         {
             var ViewModel = new CourseViewModel
@@ -24,6 +27,27 @@ namespace tranhuuhuy_2011061565.Controllers
                 Categories = _dbContext.Categories.ToList(),
             };
             return View(ViewModel);
+        }
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CourseViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                viewModel.Categories= _dbContext.Categories.ToList();
+                return View("Create", viewModel);
+            }
+            var course = new Course
+            {
+               LecturerId= User.Identity.GetUserId(),
+               DateTime= viewModel.GetDateTime(),
+               CategoryId= viewModel.Category,
+               Place= viewModel.Place
+            };
+            _dbContext.Courses.Add(course);
+            _dbContext.SaveChanges();   
+            return RedirectToAction("Index", "Home");
         }
     }
 }
