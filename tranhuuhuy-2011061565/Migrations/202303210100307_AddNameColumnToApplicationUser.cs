@@ -1,5 +1,4 @@
 ﻿
-
 namespace tranhuuhuy_2011061565.Migrations
 {
     using System;
@@ -11,7 +10,7 @@ namespace tranhuuhuy_2011061565.Migrations
         {
             AddColumn("dbo.AspNetUsers", "Name", c => c.String(nullable: false, maxLength: 255));
         }
-        
+
         public override void Down()
         {
             DropColumn("dbo.AspNetUsers", "Name");

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using tranhuuhuy_2011061565.Models;
 using tranhuuhuy_2011061565.ViewModels;
+using System.Data.Entity;
 
 namespace tranhuuhuy_2011061565.Controllers
 {
@@ -48,6 +49,23 @@ namespace tranhuuhuy_2011061565.Controllers
             _dbContext.Courses.Add(course);
             _dbContext.SaveChanges();   
             return RedirectToAction("Index", "Home");
+        }
+        [Authorize]
+        public ActionResult Attending()
+        {
+            var userId = User.Identity.GetUserId();
+            var course = _dbContext.Attendances
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.Course)
+                .Include(l => l.Lecturer)
+                .Include(l => l.Category)
+                .ToList();
+            var viewModel = new CoursesViewModel
+            {
+                UpcommingCourses = course,
+                ShowAction = User.Identity.IsAuthenticated
+            };
+            return View(viewModel);
         }
     }
 }

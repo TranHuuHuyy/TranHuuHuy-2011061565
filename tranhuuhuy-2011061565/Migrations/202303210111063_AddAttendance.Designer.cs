@@ -7,13 +7,13 @@ namespace tranhuuhuy_2011061565.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Thembang : IMigrationMetadata
+    public sealed partial class AddAttendance : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Thembang));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddAttendance));
         
         string IMigrationMetadata.Id
         {
-            get { return "202303060733247_Thembang"; }
+            get { return "202303210111063_AddAttendance"; }
         }
         
         string IMigrationMetadata.Source
